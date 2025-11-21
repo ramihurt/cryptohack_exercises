@@ -29,3 +29,26 @@ init = bytes.fromhex("73626960647f6b206821204f21254f7d694f7624662065622127234f72
 print(xor(init,16))
 # crypto{0x10_15_my_f4v0ur173_by7e}
 
+init = "0e0b213f26041e480b26217f27342e175d0e070a3c5b103e2526217f27342e175d0e077e263451150104"
+bytes_init = bytes.fromhex(init)
+byte_array =[]
+byte=0x00
+flag_format = "crypto{"
+pos = 0
+
+for i in range(len(bytes_init)):
+    for j in range(256):
+        flag = xor(bytes_init[i], byte).decode("utf-8")
+        if flag == flag_format[pos]:
+            print(byte)
+            pos+=1
+            byte_array.append(byte)
+            break
+        byte = byte + 0x01
+    byte=0x00
+    print(pos)
+    if pos >= len(flag_format):
+        break
+
+print("".join(chr(o) for o in byte_array))
+print(xor(bytes_init, b'myXORkey'))
